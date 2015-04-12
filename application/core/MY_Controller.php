@@ -31,13 +31,34 @@ class Application extends CI_Controller {
      * Render this page
      */
     function render() {
+        //$role = $this->session->userdata('userRole');
++       //$name = $this->session->userdata('userName');
+        /*
+        if($role == ROLE_USER)
+        {
+            $this->config->item('menu_choices')['menudata'][2] = NULL;
+            $this->config->item('menu_choices')['menudata'][3] = NULL;
+        }
+        if($role == ROLE_ADMIN)
+        {
+            $this->config->item('menu_choices')['menudata'][3] = NULL;
+        }
+        
+        if($role === NULL)
+        {
+            $this->config->item('menu_choices')['menudata'] = array($this->config->item('menu_choices')['menudata'][3]);
+        }
+        */
+        
         $this->data['menubar'] = $this->parser->parse('_menubar', $this->config->item('menu_choices'),true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
 
         // finally, build the browser page!
+        $this->data['sessionid'] = session_id();
         $this->data['data'] = &$this->data;
         $this->parser->parse('_template', $this->data);
     }
+    
 
 }
 

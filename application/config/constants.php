@@ -29,6 +29,10 @@ define('FILE_WRITE_MODE', 0666);
 define('DIR_READ_MODE', 0755);
 define('DIR_WRITE_MODE', 0777);
 
+// USER ROLES
+define('ROLE_USER', 'user');
+define('ROLE_ADMIN', 'admin');
+
 /*
 |--------------------------------------------------------------------------
 | File Stream Modes
