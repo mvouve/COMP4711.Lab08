@@ -31,26 +31,29 @@ class Application extends CI_Controller {
      * Render this page
      */
     function render() {
-        //$role = $this->session->userdata('userRole');
-+       //$name = $this->session->userdata('userName');
-        /*
+        $role = $this->session->userdata('userRole');
+        $name = $this->session->userdata('userName');
+        $menu = $this->config->item('menu_choices');
+        
         if($role == ROLE_USER)
         {
-            $this->config->item('menu_choices')['menudata'][2] = NULL;
-            $this->config->item('menu_choices')['menudata'][3] = NULL;
+            
+            $menu['menudata'][2] = NULL;
+            $menu['menudata'][3] = NULL;
+            
+            
         }
         if($role == ROLE_ADMIN)
         {
-            $this->config->item('menu_choices')['menudata'][3] = NULL;
+            $menu['menudata'][3] = NULL;
         }
         
         if($role === NULL)
         {
-            $this->config->item('menu_choices')['menudata'] = array($this->config->item('menu_choices')['menudata'][3]);
+            $menu['menudata'] = array($this->config->item('menu_choices')['menudata'][3]);
         }
-        */
         
-        $this->data['menubar'] = $this->parser->parse('_menubar', $this->config->item('menu_choices'),true);
+        $this->data['menubar'] = $this->parser->parse('_menubar', $menu,true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
 
         // finally, build the browser page!
@@ -59,7 +62,27 @@ class Application extends CI_Controller {
         $this->parser->parse('_template', $this->data);
     }
     
-
+    function restrict($rolereq = NULL)
+    {
+        $userRole = $this->session->userdata('userRole');
+        
+        if($roleNeeded !== NULL)
+        {
+            if(is_array($rolereq))
+            {
+                if(!in_array($userRole, $rolereq))
+                {
+                    redirect("/");
+                    return;
+                }
+            }
+        }
+        else if($userRole !== $rolereq)
+        {
+            redirect("/");
+            return;
+        }
+    }
 }
 
 /* End of file MY_Controller.php */
